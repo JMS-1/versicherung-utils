@@ -1,0 +1,9 @@
+:local(.footer) {
+    display: grid;
+    grid-auto-flow: column;
+    align-items: center;
+    justify-content: flex-end;
+    column-gap: 0.5em;
+    padding: 0.5em;
+    background: #eeeeee;
+}
