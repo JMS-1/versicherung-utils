@@ -5,8 +5,9 @@ import { Footer } from './components/footer'
 import { Header } from './components/header'
 import styles from './root.module.scss'
 import { AppState, IAppState } from './state'
-import { Greeting } from './steps/greeting'
-import { Source } from './steps/source'
+
+const LazyGreeting = React.lazy(() => import('./steps/greeting'))
+const LazySource = React.lazy(() => import('./steps/source'))
 
 interface IRootProps {
     className?: string
@@ -30,9 +31,9 @@ export const Root: React.FC<IRootProps> = (props) => {
     const step = React.useMemo(() => {
         switch (stepIndex) {
             case 0:
-                return <Greeting />
+                return <LazyGreeting />
             case 1:
-                return <Source />
+                return <LazySource />
         }
     }, [stepIndex])
 
@@ -40,7 +41,9 @@ export const Root: React.FC<IRootProps> = (props) => {
         <AppState.Provider value={appState}>
             <div className={clsx(styles.root, props.className)}>
                 <Header />
-                <div className={styles.step}>{step}</div>
+                <div className={styles.step}>
+                    <React.Suspense>{step}</React.Suspense>
+                </div>
                 <Footer numSteps={2} />
             </div>
         </AppState.Provider>

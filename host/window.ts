@@ -28,7 +28,7 @@ export function createWindow(): BrowserWindow {
 
     const window = new BrowserWindow(browserOptions)
 
-    window.setMenu(null)
+    if (isProduction) window.setMenu(null)
 
     return window
 }

@@ -7,6 +7,8 @@ interface ISourceProps {
     className?: string
 }
 
-export const Source: React.FC<ISourceProps> = (props) => {
+const Source: React.FC<ISourceProps> = (props) => {
     return <div className={clsx(styles.step, props.className)}>[source]</div>
 }
+
+export default Source
