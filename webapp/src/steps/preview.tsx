@@ -1,10 +1,10 @@
 import { clsx } from 'clsx'
 import { Dirent } from 'fs'
-import { join } from 'path'
 import * as React from 'react'
-import { pathToFileURL } from 'url'
 
 import styles from './preview.module.scss'
+
+import { getCachedFile } from '../state'
 
 interface IPreviewProps {
     className?: string
@@ -14,9 +14,5 @@ interface IPreviewProps {
 export const Preview: React.FC<IPreviewProps> = (props) => {
     const { file } = props
 
-    const fileRef = React.useMemo(() => {
-        return file && pathToFileURL(join(file.path, file.name)).href
-    }, [file])
-
-    return file ? <img className={clsx(styles.preview, props.className)} src={fileRef} /> : <div />
+    return file ? <img className={clsx(styles.preview, props.className)} src={getCachedFile(file).href} /> : <div />
 }

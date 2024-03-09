@@ -17,10 +17,12 @@ interface IRootProps {
 
 export const Root: React.FC<IRootProps> = (props) => {
     const [stepIndex, setStepIndex] = React.useState(0)
+
     const settings = useSettings()
 
     const appState = React.useMemo<IAppState>(
         () => ({
+            fileCache: {},
             get stepIndex() {
                 return stepIndex
             },

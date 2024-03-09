@@ -8,6 +8,7 @@ import styles from './files.module.scss'
 import { Preview } from './preview'
 
 import { useSettings } from '../settings'
+import { AppState } from '../state'
 
 interface IFilesProps {
     className?: string
@@ -16,10 +17,21 @@ interface IFilesProps {
 const supportedFileTypes = new Set(['.jpg', '.jpeg', '.png'])
 
 const Files: React.FC<IFilesProps> = (props) => {
+    const state = React.useContext(AppState)
+
     const settings = useSettings()
 
+    const [first, setFirst] = React.useState(true)
     const [files, setFiles] = React.useState<[Dirent, Stats, boolean][]>([])
     const [preview, setPreview] = React.useState<Dirent | undefined>(undefined)
+
+    React.useEffect(() => {
+        if (!first) return
+
+        state.fileCache = {}
+
+        setFirst(false)
+    }, [first, state])
 
     React.useEffect(() => {
         try {
