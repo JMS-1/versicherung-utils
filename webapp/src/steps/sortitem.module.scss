@@ -1,0 +1,12 @@
+:local(.item) {
+    width: 150px;
+    height: 150px;
+    overflow: hidden;
+    object-fit: contain;
+    border: 1px solid black;
+    background: #c79494;
+
+    &:local(.show) {
+        background: #ffffff;
+    }
+}

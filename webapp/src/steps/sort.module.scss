@@ -1,0 +1,12 @@
+:local(.step) {
+    width: calc(100% - 0.2em);
+    max-height: 100%;
+    height: fit-content;
+    padding-right: 0.2em;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    row-gap: 1em;
+    column-gap: 1em;
+}

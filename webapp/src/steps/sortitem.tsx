@@ -2,16 +2,16 @@ import { clsx } from 'clsx'
 import { Dirent } from 'fs'
 import * as React from 'react'
 
-import styles from './preview.module.scss'
+import styles from './sortitem.module.scss'
 
 import { AppState, getCachedFile, ICachedFile } from '../state'
 
-interface IPreviewProps {
+interface ISortItemProps {
     className?: string
-    file: Dirent | undefined
+    file: Dirent
 }
 
-export const Preview: React.FC<IPreviewProps> = (props) => {
+export const SortItem: React.FC<ISortItemProps> = (props) => {
     const state = React.useContext(AppState)
 
     const [cached, setCached] = React.useState<ICachedFile | undefined>(undefined)
@@ -22,12 +22,5 @@ export const Preview: React.FC<IPreviewProps> = (props) => {
         if (file) getCachedFile(state, file).then(setCached)
     }, [file, state])
 
-    return file ? (
-        <div className={clsx(styles.preview, props.className)}>
-            <div>{file.name}</div>
-            <img className={clsx(cached?.href && styles.show)} draggable={false} src={cached?.href} />
-        </div>
-    ) : (
-        <div />
-    )
+    return <img className={clsx(styles.item, props.className, cached?.href && styles.show)} src={cached?.href} />
 }

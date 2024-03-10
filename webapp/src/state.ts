@@ -16,6 +16,7 @@ export interface ICachedFileInternal extends ICachedFile {
 export interface IAppState {
     stepIndex: number
     fileCache: Record<string, ICachedFileInternal>
+    files: Dirent[]
 }
 
 // eslint-disable-next-line @typescript-eslint/naming-convention

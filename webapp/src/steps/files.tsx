@@ -29,9 +29,10 @@ const Files: React.FC<IFilesProps> = (props) => {
         if (!first) return
 
         state.fileCache = {}
+        state.files = []
 
         setFirst(false)
-    }, [first, state])
+    }, [files, first, state])
 
     React.useEffect(() => {
         try {
@@ -72,9 +73,11 @@ const Files: React.FC<IFilesProps> = (props) => {
 
                 files[index][2] = selected
 
+                setTimeout(() => (state.files = files.filter((f) => f[2]).map((f) => f[0])), 0)
+
                 return files
             }),
-        []
+        [state]
     )
 
     return (
