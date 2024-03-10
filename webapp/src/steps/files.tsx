@@ -67,17 +67,16 @@ const Files: React.FC<IFilesProps> = (props) => {
     }, [settings])
 
     const onSelect = React.useCallback(
-        (index: number, selected: boolean) =>
-            setFiles((files) => {
-                files = [...files]
+        (index: number, selected: boolean) => {
+            const newFiles = [...files]
 
-                files[index][2] = selected
+            newFiles[index][2] = selected
 
-                setTimeout(() => (state.files = files.filter((f) => f[2]).map((f) => f[0])), 0)
+            setFiles(newFiles)
 
-                return files
-            }),
-        [state]
+            setTimeout(() => (state.files = newFiles.filter((f) => f[2]).map((f) => f[0])).reverse(), 0)
+        },
+        [files, state]
     )
 
     return (

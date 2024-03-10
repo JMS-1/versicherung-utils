@@ -10,6 +10,7 @@ import { AppState, IAppState, ICachedFileInternal } from './state'
 
 const LazyFiles = React.lazy(() => import('./steps/files'))
 const LazyGreeting = React.lazy(() => import('./steps/greeting'))
+const LazyGroup = React.lazy(() => import('./steps/group'))
 const LazySort = React.lazy(() => import('./steps/sort'))
 const LazySource = React.lazy(() => import('./steps/source'))
 
@@ -54,6 +55,8 @@ export const Root: React.FC<IRootProps> = (props) => {
                 return <LazyFiles />
             case 3:
                 return <LazySort />
+            case 4:
+                return <LazyGroup />
         }
     }, [stepIndex])
 
@@ -65,7 +68,7 @@ export const Root: React.FC<IRootProps> = (props) => {
                     <div className={styles.step}>
                         <React.Suspense>{step}</React.Suspense>
                     </div>
-                    <Footer numSteps={4} />
+                    <Footer numSteps={5} />
                 </div>
             </SettingsContext.Provider>
         </AppState.Provider>

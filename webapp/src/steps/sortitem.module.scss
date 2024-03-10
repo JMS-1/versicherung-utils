@@ -9,4 +9,8 @@
     &:local(.show) {
         background: #ffffff;
     }
+
+    &:local(.droptest):not(.drag) {
+        opacity: 0.5;
+    }
 }
