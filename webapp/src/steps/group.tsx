@@ -2,6 +2,7 @@ import { clsx } from 'clsx'
 import * as React from 'react'
 
 import styles from './group.module.scss'
+import { Groupitem } from './groupitem'
 
 import { AppState } from '../state'
 
@@ -12,10 +13,37 @@ interface IGroupProps {
 const Group: React.FC<IGroupProps> = (props) => {
     const state = React.useContext(AppState)
 
+    const [indent, setIndent] = React.useState<Record<number, boolean>>({})
+
+    const toggleIndent = React.useCallback((index: number) => setIndent((s) => ({ ...s, [index]: !s[index] })), [])
+
+    React.useEffect(
+        () => () => {
+            const groups: number[][] = []
+
+            let group: number[] = []
+
+            for (let i = 0; i < state.files.length; i++) {
+                if (!indent[i]) {
+                    if (group.length > 0) groups.push(group)
+
+                    group = []
+                }
+
+                group.push(i)
+            }
+
+            if (group.length > 0) groups.push(group)
+
+            state.groups = groups
+        },
+        [indent, state]
+    )
+
     return (
         <div className={clsx(styles.step, props.className)}>
-            {state.files.map((f) => (
-                <div key={f.name}>{f.name}</div>
+            {state.files.map((f, i) => (
+                <Groupitem key={f.name} file={f} indent={indent[i]} index={i} toggle={toggleIndent} />
             ))}
         </div>
     )

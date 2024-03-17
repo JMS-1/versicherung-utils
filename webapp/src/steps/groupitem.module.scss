@@ -1,0 +1,29 @@
+:local(.item) {
+    display: grid;
+    grid-template-columns: auto 5em 1fr;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 0.5em;
+    overflow: hidden;
+
+    > .action {
+        text-align: left;
+        width: 1em;
+
+        > svg {
+            height: 1em;
+            object-fit: fill;
+        }
+
+        &:local(.indent) {
+            width: 2em;
+            transform: scaleX(-1) translateX(1em);
+        }
+    }
+
+    > .image {
+        object-fit: contain;
+        width: 100%;
+        overflow: hidden;
+    }
+}

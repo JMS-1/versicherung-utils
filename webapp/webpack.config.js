@@ -26,6 +26,7 @@ module.exports = (env) => {
             { fs: 'commonjs fs' },
             { jimp: 'commonjs jimp' },
             { path: 'commonjs path' },
+            { pdfkit: 'commonjs pdfkit' },
             { url: 'commonjs url' },
         ],
 

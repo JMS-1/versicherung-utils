@@ -1,5 +1,4 @@
 import { clsx } from 'clsx'
-import { Dirent } from 'fs'
 import * as React from 'react'
 
 import { Footer } from './components/footer'
@@ -11,6 +10,7 @@ import { AppState, IAppState, ICachedFileInternal } from './state'
 const LazyFiles = React.lazy(() => import('./steps/files'))
 const LazyGreeting = React.lazy(() => import('./steps/greeting'))
 const LazyGroup = React.lazy(() => import('./steps/group'))
+const LazyPdf = React.lazy(() => import('./steps/pdf'))
 const LazySort = React.lazy(() => import('./steps/sort'))
 const LazySource = React.lazy(() => import('./steps/source'))
 
@@ -20,7 +20,8 @@ interface IRootProps {
 
 export const Root: React.FC<IRootProps> = (props) => {
     const [stepIndex, setStepIndex] = React.useState(0)
-    const [files, setFiles] = React.useState<Dirent[]>([])
+    const [files, setFiles] = React.useState<IAppState['files']>([])
+    const [groups, setGroups] = React.useState<IAppState['groups']>([])
 
     const fileCache = React.useMemo<Record<string, ICachedFileInternal>>(() => ({}), [])
 
@@ -32,8 +33,14 @@ export const Root: React.FC<IRootProps> = (props) => {
             get files() {
                 return files
             },
-            set files(files: Dirent[]) {
+            set files(files) {
                 setFiles(files)
+            },
+            get groups() {
+                return groups
+            },
+            set groups(groups) {
+                setGroups(groups)
             },
             get stepIndex() {
                 return stepIndex
@@ -42,7 +49,7 @@ export const Root: React.FC<IRootProps> = (props) => {
                 setStepIndex(stepIndex)
             },
         }),
-        [fileCache, files, stepIndex]
+        [fileCache, files, groups, stepIndex]
     )
 
     const step = React.useMemo(() => {
@@ -57,6 +64,8 @@ export const Root: React.FC<IRootProps> = (props) => {
                 return <LazySort />
             case 4:
                 return <LazyGroup />
+            case 5:
+                return <LazyPdf />
         }
     }, [stepIndex])
 
@@ -68,7 +77,7 @@ export const Root: React.FC<IRootProps> = (props) => {
                     <div className={styles.step}>
                         <React.Suspense>{step}</React.Suspense>
                     </div>
-                    <Footer numSteps={5} />
+                    <Footer numSteps={6} />
                 </div>
             </SettingsContext.Provider>
         </AppState.Provider>
