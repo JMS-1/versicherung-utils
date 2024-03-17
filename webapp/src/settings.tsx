@@ -5,6 +5,7 @@ import { electronHost } from './electron'
 
 interface IConfigurationData {
     rootPath: string
+    settingsPath: string
 }
 
 export interface IConfiguration extends IConfigurationData {
@@ -13,6 +14,7 @@ export interface IConfiguration extends IConfigurationData {
 
 const initialConfig: IConfiguration = {
     rootPath: '',
+    settingsPath: '',
     update: () => alert('out of bound call to settings updater'),
 }
 
