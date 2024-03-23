@@ -3,8 +3,10 @@
     position: relative;
 
     > img {
-        width: 150px;
-        height: 150px;
+        $size: 300px;
+
+        width: $size;
+        height: $size;
         overflow: hidden;
         object-fit: contain;
         border: 1px solid black;

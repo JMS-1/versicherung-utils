@@ -24,8 +24,10 @@ export const Preview: React.FC<IPreviewProps> = (props) => {
 
     return file ? (
         <div className={clsx(styles.preview, props.className)}>
-            <div>{file.name}</div>
-            <img className={clsx(cached?.href && styles.show)} draggable={false} src={cached?.href} />
+            <div className={styles.title}>{file.name}</div>
+            <div className={styles.image}>
+                <img className={clsx(cached?.href && styles.show)} draggable={false} src={cached?.href} />
+            </div>
         </div>
     ) : (
         <div />
