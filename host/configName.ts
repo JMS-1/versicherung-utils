@@ -9,7 +9,7 @@ export async function getConfigName(
     reply: <T extends TResponse>(response: T) => void
 ): Promise<void> {
     reply<IConfigResponse>({
-        configName: isProduction ? 'db-analyser-v1' : 'db-analyser-develop',
+        configName: isProduction ? 'insurancy-app-v1' : 'insurancy-app-develop',
         type: 'config-response',
     })
 }
