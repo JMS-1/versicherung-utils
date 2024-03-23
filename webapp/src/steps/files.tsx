@@ -81,6 +81,19 @@ const Files: React.FC<IFilesProps> = (props) => {
 
     return (
         <div className={clsx(styles.step, props.className)}>
+            <div className={styles.explain}>
+                <p>
+                    Hier siehst Du alle Bilddateien, die sich in dem im vorherigen Schritt ausgewählen Scan Verzeichnis
+                    befinden. Diese sind nach dem Zeitpunkt des Scans sortiert, der letzte Scan befindet sich dabei
+                    immer am Anfang der Liste. In den meisten Fällen wird es ausreichen, die relevanten Dokumente
+                    basierend auf dem Zeitpunkt auszuwählen - die Auswahl geschieht durch ein Anhaken der gewünschten
+                    Dokumente. Im Folgenden werden dann nur die ausgewählten Dateien berücksichtigt.
+                </p>
+                <p>
+                    Wenn Du unsicher bist um welche Dokumente es sich in der Liste handelt kannst Du auf den jeweiligen
+                    Dateinamen klicken. Dann wird Dir rechts eine Vorschau angezeigt.
+                </p>
+            </div>
             <div className={styles.files}>
                 {files.map((f, i) => (
                     <File key={f[0].name} file={f} index={i} setSelect={onSelect} showPreview={setPreview} />

@@ -51,6 +51,13 @@ const Source: React.FC<ISourceProps> = (props) => {
                 <input type='text' value={settings.rootPath} onChange={setPath} />
                 <button onClick={browsePath}>...</button>
             </label>
+            <div>
+                <p>
+                    An dieser Stelle wählst Du das Dateiverzeichnis, in dem die beim Scan erstellten Bilddateien
+                    abgelegt wurden. Einmal ausgewählt merkt sich dieses Werkzeug die Auswahl, so dass Du diese im
+                    Allgemeinen nicht mehr erneut auswählen musst.
+                </p>
+            </div>
         </div>
     )
 }

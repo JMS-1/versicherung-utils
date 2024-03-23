@@ -1,16 +1,45 @@
 :local(.item) {
-    width: 150px;
-    height: 150px;
-    overflow: hidden;
-    object-fit: contain;
-    border: 1px solid black;
-    background: #c79494;
+    display: inline-block;
+    position: relative;
 
-    &:local(.show) {
-        background: #ffffff;
+    > img {
+        width: 150px;
+        height: 150px;
+        overflow: hidden;
+        object-fit: contain;
+        border: 1px solid black;
+        background: #c79494;
+
+        &:local(.show) {
+            background: #ffffff;
+        }
+
+        &:local(.droptest):not(.drag) {
+            opacity: 0.5;
+
+            + :local(.arrow) {
+                opacity: unset;
+            }
+        }
     }
 
-    &:local(.droptest):not(.drag) {
-        opacity: 0.5;
+    > :local(.arrow) {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        display: grid;
+        grid-auto-flow: column;
+        justify-content: flex-end;
+        align-items: flex-start;
+        opacity: 0;
+
+        > svg {
+            margin: 8px;
+            height: 1em;
+            object-fit: fill;
+        }
     }
 }

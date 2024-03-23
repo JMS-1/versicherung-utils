@@ -1,9 +1,12 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 import { clsx } from 'clsx'
 import { Dirent } from 'fs'
 import * as React from 'react'
 
 import styles from './sortitem.module.scss'
 
+import Right from '../images/right.svg'
 import { AppState, getCachedFile, ICachedFile } from '../state'
 
 interface ISortItemProps {
@@ -66,22 +69,19 @@ export const SortItem: React.FC<ISortItemProps> = (props) => {
     )
 
     return (
-        <img
-            draggable
-            className={clsx(
-                styles.item,
-                props.className,
-                cached?.href && styles.show,
-                drop && styles.droptest,
-                drag && styles.drag
-            )}
-            src={cached?.href}
-            onDragEnd={dragEnd}
-            onDragEnter={dragEnter}
-            onDragLeave={dragLeave}
-            onDragOver={dragOver}
-            onDragStart={dragStart}
-            onDrop={onDrop}
-        />
+        <span className={clsx(styles.item, props.className)}>
+            <img
+                draggable
+                className={clsx(cached?.href && styles.show, drop && styles.droptest, drag && styles.drag)}
+                src={cached?.href}
+                onDragEnd={dragEnd}
+                onDragEnter={dragEnter}
+                onDragLeave={dragLeave}
+                onDragOver={dragOver}
+                onDragStart={dragStart}
+                onDrop={onDrop}
+            />
+            <div className={styles.arrow} dangerouslySetInnerHTML={{ __html: Right }} />
+        </span>
     )
 }

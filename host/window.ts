@@ -15,6 +15,7 @@ export function createWindow(): BrowserWindow {
     const browserOptions: BrowserWindowConstructorOptions = {
         autoHideMenuBar: true,
         height: 800,
+        title: 'Mein kleiner Dokumentenhelfer',
         useContentSize: true,
         webPreferences: {
             backgroundThrottling: false,

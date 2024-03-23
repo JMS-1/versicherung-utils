@@ -1,12 +1,21 @@
 :local(.step) {
     width: calc(100% - 0.2em);
-    max-height: 100%;
-    height: fit-content;
+    height: 100%;
     padding-right: 0.2em;
-    overflow: auto;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    overflow: hidden;
+    display: grid;
+    grid-template-rows: auto 1fr;
     row-gap: 1em;
-    column-gap: 1em;
+
+    > :local(.files) {
+        width: 100%;
+        max-height: 100%;
+        height: fit-content;
+        overflow: auto;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: 0.5em;
+        column-gap: 0.5em;
+    }
 }

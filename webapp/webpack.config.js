@@ -28,6 +28,7 @@ module.exports = (env) => {
             { path: 'commonjs path' },
             { pdfkit: 'commonjs pdfkit' },
             { url: 'commonjs url' },
+            { util: 'commonjs util' },
         ],
 
         /** Man beachte, dass --env in der package.json explizit gesetzt wird. */

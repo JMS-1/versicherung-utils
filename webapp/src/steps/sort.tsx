@@ -35,9 +35,19 @@ const Sort: React.FC<ISortProps> = (props) => {
 
     return (
         <div className={clsx(styles.step, props.className)}>
-            {files.map((f) => (
-                <SortItem key={f.name} dropFile={onDrop} file={f} />
-            ))}
+            <div>
+                <p>
+                    Alle im vorherigen Schritt ausgewählten Dokumente werden hier in der zeitlichen Reihenfolge des
+                    Scans angezeigt - beginnend mit dem zuerst eingespielten (ältesten) Dokument. Du kannst die
+                    Reihenfolge durch Ziehen mit der Maus verändern - wird ein Dokument mit der Maus über ein anderes
+                    gezogen, so wird es hinter diesem eingefügt.
+                </p>
+            </div>
+            <div className={styles.files}>
+                {files.map((f) => (
+                    <SortItem key={f.name} dropFile={onDrop} file={f} />
+                ))}
+            </div>
         </div>
     )
 }
