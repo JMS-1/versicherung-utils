@@ -5,6 +5,20 @@ import { createRoot } from 'react-dom/client'
 
 import { Root } from './root'
 
+navigator.usb
+    .getDevices()
+    .then((devices) => devices.find((device) => device.manufacturerName === 'OPPO'))
+    .then((device) => {
+        if (!device) return
+
+        return device.open().then(() => device)
+    })
+    .then((device) => {
+        if (!device) return
+
+        alert(device)
+    })
+
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 createRoot(document.querySelector('body > client-root')!).render(<Root />)
 
