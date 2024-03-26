@@ -20,14 +20,17 @@ function pad(num: number, width = 2): string {
     return `${num}`.padStart(width, '0')
 }
 
+type TState = 'prepare' | 'active' | 'done'
+
 const Pdf: React.FC<IPdfProps> = (props) => {
     const state = React.useContext(AppState)
     const settings = React.useContext(SettingsContext)
 
-    const [busy, setBusy] = React.useState(0)
+    const [busy, setBusy] = React.useState<TState>('prepare')
+    const [target, setTarget] = React.useState('')
 
     const onCreatePdf = React.useCallback(async () => {
-        setBusy(1)
+        setBusy('active')
 
         const now = new Date()
 
@@ -35,6 +38,8 @@ const Pdf: React.FC<IPdfProps> = (props) => {
             settings.settingsPath,
             `${pad(now.getFullYear(), 4)}${pad(now.getMonth() + 1)}${pad(now.getDate())}-${pad(now.getHours())}${pad(now.getMinutes())}${pad(now.getSeconds())}`
         )
+
+        setTarget(dir)
 
         try {
             await promisify(mkdir)(dir)
@@ -56,10 +61,12 @@ const Pdf: React.FC<IPdfProps> = (props) => {
 
                 doc.end()
             }
+
+            setBusy('done')
         } catch (error) {
+            setBusy('prepare')
+
             alert(error.message)
-        } finally {
-            setBusy(2)
         }
     }, [state, settings])
 
@@ -94,29 +101,32 @@ const Pdf: React.FC<IPdfProps> = (props) => {
     }, [selectPath])
 
     return (
-        <div className={clsx(styles.step, props.className, busy === 1 && styles.busy)}>
-            <div>
-                <p>
-                    An dieser Stelle empfiehlt es sich, Dein Handy über USB an Deinen PC anzuschliessen und den
-                    Dateizugriff freizuschalten. Du kannst dann hier direkt ein Zielverzeichnis für die zu ersellenden
-                    PDF Datei auf dem Handly aussuchen - legst Du die PDF Dateien auf Deinem PC ab, musst Du diese
-                    natürlich nachträglich manuell kopieren. Dieses Werkzeug merkt sich die Auswahl des
-                    Zielverzeichnisses, so dass Du diese im Allgmeinen nur einmalig auswählen musst.
-                </p>
-                <p>
-                    Die PDF Dateien werden erst bei Drücken auf die Schaltfläche erzeugt. Dazu wird im Zielverzeichnis
-                    ein Verzeichnis mit der aktuellen Uhrzeit als Namen angelegt, so dass ältere Dateien nicht
-                    überschrieben werden.
-                </p>
-            </div>
+        <div className={clsx(styles.step, props.className, busy === 'active' && styles.busy)}>
+            <p>
+                Bitte wähle nun ein Verzeichnis auf Deinem PC, in dem die PDF Dokumente angelegt werden sollen. Dieses
+                Werkzeug merkt sich die Auswahl des Zielverzeichnisses, so dass Du diese im Allgmeinen nur einmalig
+                auswählen musst.
+            </p>
             <label className={styles.directory}>
                 <span>PDF Verzeichnis:</span>
                 <input type='text' value={settings.settingsPath} onChange={setPath} />
                 <button onClick={browsePath}>...</button>
             </label>
-            <button disabled={busy !== 0} onClick={onCreatePdf}>
+            <p>
+                Die PDF Dateien werden erst bei Drücken auf die Schaltfläche erzeugt. Dazu wird im Zielverzeichnis ein
+                Verzeichnis mit der aktuellen Uhrzeit als Namen angelegt, so dass ältere Dateien nicht überschrieben
+                werden.
+            </p>
+            <button disabled={busy === 'active'} onClick={onCreatePdf}>
                 PDF Dokumente erstellen
             </button>
+            {busy === 'done' && (
+                <p>
+                    Du findest die erzeugten PDF Dokumente im Verzeichnis <i>{target}</i>. Du solltest nun Dein
+                    Smartphone an diesen PC anschließen und die Dateien kopieren. Es empfiehlt sich, die Dokumente auf
+                    dem PC zu behalten - etwa für spätere Rückfragen.
+                </p>
+            )}
         </div>
     )
 }
