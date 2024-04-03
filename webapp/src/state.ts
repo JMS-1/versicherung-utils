@@ -46,13 +46,15 @@ export function getCachedFile(state: IAppState, file: Dirent): Promise<ICachedFi
 
                 if (width <= 0 || height <= 0) return
 
-                img.scale(1000.0 / Math.max(width, height))
+                const factor = 2000.0 / Math.max(width, height)
+
+                if (factor < 1.0) img.scale(factor)
 
                 /* Get the buffer from the content. */
-                existing.image = await img.getBufferAsync('image/png')
+                existing.image = await img.getBufferAsync('image/jpeg')
 
                 /* Remember final image. */
-                existing.href = `data:image/png;base64,${existing.image.toString('base64')}`
+                existing.href = `data:image/jpeg;base64,${existing.image.toString('base64')}`
             } finally {
                 /* Mark as finished. */
                 whenDone(existing)
