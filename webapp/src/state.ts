@@ -6,6 +6,7 @@ import { createContext } from 'react'
 export interface ICachedFile {
     href: string
     image?: Buffer
+    raw?: Buffer
     readonly file: Dirent
 }
 
@@ -40,21 +41,24 @@ export function getCachedFile(state: IAppState, file: Dirent): Promise<ICachedFi
                 /* Failed somehow. */
                 if (err || !img) return
 
+                /* Remember raw data. */
+                existing.raw = await img.getBufferAsync('image/jpeg')
+
                 /* Rescale. */
                 const width = img.getWidth()
                 const height = img.getHeight()
 
                 if (width <= 0 || height <= 0) return
 
-                const factor = 2000.0 / Math.max(width, height)
+                const factor = 1000.0 / Math.max(width, height)
 
                 if (factor < 1.0) img.scale(factor)
 
                 /* Get the buffer from the content. */
-                existing.image = await img.getBufferAsync('image/jpeg')
+                existing.image = await img.getBufferAsync('image/png')
 
                 /* Remember final image. */
-                existing.href = `data:image/jpeg;base64,${existing.image.toString('base64')}`
+                existing.href = `data:image/png;base64,${existing.image.toString('base64')}`
             } finally {
                 /* Mark as finished. */
                 whenDone(existing)
