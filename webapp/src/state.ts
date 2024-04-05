@@ -1,4 +1,4 @@
-import { Dirent } from 'fs'
+import { Dirent, readFile } from 'fs'
 import { read } from 'jimp'
 import { join } from 'path'
 import { createContext } from 'react'
@@ -36,33 +36,38 @@ export function getCachedFile(state: IAppState, file: Dirent): Promise<ICachedFi
 
         state.fileCache[file.name] = existing
 
-        read(join(file.path, file.name), async (err, img) => {
-            try {
-                /* Failed somehow. */
-                if (err || !img) return
+        readFile(join(file.path, file.name), (err, buf) => {
+            /* Failed somehow. */
+            if (err || !buf) return
 
-                /* Remember raw data. */
-                existing.raw = await img.getBufferAsync('image/jpeg')
+            /* Remember raw data. */
+            existing.raw = buf
 
-                /* Rescale. */
-                const width = img.getWidth()
-                const height = img.getHeight()
+            read(buf, async (err, img) => {
+                try {
+                    /* Failed somehow. */
+                    if (err || !img) return
 
-                if (width <= 0 || height <= 0) return
+                    /* Rescale. */
+                    const width = img.getWidth()
+                    const height = img.getHeight()
 
-                const factor = 1000.0 / Math.max(width, height)
+                    if (width <= 0 || height <= 0) return
 
-                if (factor < 1.0) img.scale(factor)
+                    const factor = 1000.0 / Math.max(width, height)
 
-                /* Get the buffer from the content. */
-                existing.image = await img.getBufferAsync('image/png')
+                    if (factor < 1.0) img.scale(factor)
 
-                /* Remember final image. */
-                existing.href = `data:image/png;base64,${existing.image.toString('base64')}`
-            } finally {
-                /* Mark as finished. */
-                whenDone(existing)
-            }
+                    /* Get the buffer from the content. */
+                    existing.image = await img.getBufferAsync('image/png')
+
+                    /* Remember final image. */
+                    existing.href = `data:image/png;base64,${existing.image.toString('base64')}`
+                } finally {
+                    /* Mark as finished. */
+                    whenDone(existing)
+                }
+            })
         })
     }
 

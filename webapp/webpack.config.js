@@ -14,7 +14,7 @@ const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin'
 const ReactRefreshTypeScript = require('react-refresh-typescript')
 
 /** Benamung von CSS Modulen. */
-const cssModules = { auto: true, localIdentName: '[local]-[hash:base64:5]' }
+const cssModules = { auto: true, localIdentName: '[local]-[hash:base64:5]', namedExport: false }
 
 module.exports = (env) => {
     const config = {

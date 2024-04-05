@@ -35,7 +35,7 @@ const Group: React.FC<IGroupProps> = (props) => {
 
             if (group.length > 0) groups.push(group)
 
-            state.groups = groups
+            setTimeout(() => (state.groups = groups), 0)
         },
         [indent, state]
     )
