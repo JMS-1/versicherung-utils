@@ -54,7 +54,7 @@ const Pdf: React.FC<IPdfProps> = (props) => {
 
                     const image = await getCachedFile(state, state.files[i])
 
-                    if (image.raw) doc.image(image.raw, { fit: [doc.page.width, doc.page.height] })
+                    if (image.image) doc.image(image.image, { fit: [doc.page.width, doc.page.height] })
                 }
 
                 doc.pipe(createWriteStream(join(dir, `pdf-${pad(++index)}.pdf`)))
